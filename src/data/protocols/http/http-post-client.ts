@@ -1,3 +1,5 @@
+import { HttpResponse } from "./http-response";
+
 // Interface Segregation Principle - Separar as interfaces em pequenas partes
 export type HttpPostParams = {
   url: string;
@@ -5,5 +7,5 @@ export type HttpPostParams = {
 };
 
 export interface HttpPostClient {
-  post(params: HttpPostParams): Promise<void>;
+  post(params: HttpPostParams): Promise<HttpResponse>;
 }
