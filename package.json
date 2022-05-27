@@ -10,7 +10,7 @@
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
-    "axios": "^0.26.1",
+    "axios": "^0.21.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
@@ -45,9 +45,9 @@
     ]
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.2.0",
     "@types/axios": "^0.14.0",
-    "@types/faker": "^6.6.9",
+    "@types/faker": "^5.1.2",
+    "faker": "^5.1.0",
     "ts-jest": "^27.1.4"
   }
 }
