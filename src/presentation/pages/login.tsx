@@ -1,14 +1,12 @@
-import Logo from "../components/logo/Logo";
+import Footer from "../components/footer/footer";
+import Header from "../components/login-header/login-header";
 import Spinner from "../components/spinner/spinner";
 import styles from "./login-styles.module.scss";
 
 function Login() {
   return (
     <div className={styles.login}>
-      <header className={styles.header}>
-        <Logo />
-        <h1>4Dev - Enquetes para Programadores</h1>
-      </header>
+      <Header />
       <form className={styles.form}>
         <h2>Login</h2>
         <div className={styles.inputWrap}>
@@ -32,7 +30,7 @@ function Login() {
           <span className={styles.error}>Erro</span>
         </div>
       </form>
-      <footer className={styles.footer} />
+      <Footer />
     </div>
   );
 }
