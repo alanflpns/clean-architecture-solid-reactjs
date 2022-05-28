@@ -1,4 +1,5 @@
 import Footer from "../components/footer/footer";
+import FormStatus from "../components/form-status/form-status";
 import Input from "../components/input/input";
 import Header from "../components/login-header/login-header";
 import Spinner from "../components/spinner/spinner";
@@ -16,10 +17,7 @@ function Login() {
           Entrar
         </button>
         <span className={styles.link}>Criar conta</span>
-        <div className={styles.errorWrap}>
-          <Spinner className={styles.spinner} />
-          <span className={styles.error}>Erro</span>
-        </div>
+        <FormStatus />
       </form>
       <Footer />
     </div>
