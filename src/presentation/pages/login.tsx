@@ -1,4 +1,5 @@
 import Footer from "../components/footer/footer";
+import Input from "../components/input/input";
 import Header from "../components/login-header/login-header";
 import Spinner from "../components/spinner/spinner";
 import styles from "./login-styles.module.scss";
@@ -9,18 +10,8 @@ function Login() {
       <Header />
       <form className={styles.form}>
         <h2>Login</h2>
-        <div className={styles.inputWrap}>
-          <input type="email" name="email" placeholder="Digite seu e-mail" />
-          <span className={styles.status}>🔴</span>
-        </div>
-        <div className={styles.inputWrap}>
-          <input
-            type="password"
-            name="password"
-            placeholder="Digite sua senha"
-          />
-          <span className={styles.status}>🔴</span>
-        </div>
+        <Input type="email" name="email" placeholder="Digite seu e-mail" />
+        <Input type="password" name="password" placeholder="Digite sua senha" />
         <button type="submit" className={styles.submit}>
           Entrar
         </button>
