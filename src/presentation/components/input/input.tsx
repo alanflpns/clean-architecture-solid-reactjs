@@ -9,11 +9,15 @@ interface Props
   > {}
 
 function Input({ ...rest }: Props) {
-  const { errorState } = useContext(Context);
-  const error = errorState[rest.name!];
+  const { state, setState } = useContext(Context);
+  const error = state[`${rest.name}Error`];
 
   const enableInput = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.readOnly = false;
+  };
+
+  const handleChange = (event: React.FocusEvent<HTMLInputElement>) => {
+    setState({ ...state, [event.target.name]: event.target.value });
   };
 
   const getStatus = () => {
@@ -26,7 +30,13 @@ function Input({ ...rest }: Props) {
 
   return (
     <div className={styles.inputWrap}>
-      <input {...rest} readOnly onFocus={enableInput} />
+      <input
+        {...rest}
+        data-testid={rest.name}
+        readOnly
+        onFocus={enableInput}
+        onChange={handleChange}
+      />
       <span
         data-testid={`${rest.name}-status`}
         title={getTitle()}
