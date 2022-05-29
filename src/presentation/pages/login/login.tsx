@@ -6,7 +6,7 @@ import { Validation } from "../../protocols/validation";
 import styles from "./login-styles.module.scss";
 
 interface Props {
-  validation: Validation;
+  validation?: Validation;
 }
 
 function Login({ validation }: Props) {
@@ -20,11 +20,11 @@ function Login({ validation }: Props) {
   });
 
   useEffect(() => {
-    validation.validate({ email: state.email });
+    validation?.validate({ email: state.email });
   }, [state.email]);
 
   useEffect(() => {
-    validation.validate({ password: state.password });
+    validation?.validate({ password: state.password });
   }, [state.password]);
 
   return (
