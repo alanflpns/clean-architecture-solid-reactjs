@@ -4,12 +4,14 @@ import Context from "../../contexts/form/form-contex";
 import { useContext } from "react";
 
 function FormStatus() {
-  const { isLoading, errorMessage } = useContext(Context);
+  const { state, errorState } = useContext(Context);
 
   return (
     <div data-testid="error-wrap" className={styles.errorWrap}>
-      {isLoading && <Spinner className={styles.spinner} />}
-      {errorMessage && <span className={styles.error}>{errorMessage}</span>}
+      {state.isLoading && <Spinner className={styles.spinner} />}
+      {errorState.main && (
+        <span className={styles.error}>{errorState.main}</span>
+      )}
     </div>
   );
 }
