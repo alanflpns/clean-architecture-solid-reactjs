@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { LoginHeader, Input, FormStatus, Footer } from "../../components";
 import Context from "../../contexts/form/form-contex";
 import { Validation } from "../../protocols/validation";
@@ -27,11 +27,16 @@ function Login({ validation }: Props) {
     });
   }, [state.email, state.password]);
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    setState({ ...state, isLoading: true });
+  };
+
   return (
     <div className={styles.login}>
       <LoginHeader />
       <Context.Provider value={{ state, setState }}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" />
           <Input

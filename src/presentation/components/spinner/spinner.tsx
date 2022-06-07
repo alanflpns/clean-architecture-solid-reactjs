@@ -4,7 +4,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Spinner({ ...rest }: Props) {
   return (
-    <div {...rest} className={`${styles.spinner} ${rest.className}`}>
+    <div
+      {...rest}
+      data-testid="spinner"
+      className={`${styles.spinner} ${rest.className}`}
+    >
       <div />
       <div />
       <div />
