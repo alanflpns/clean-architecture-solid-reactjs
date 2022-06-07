@@ -41,7 +41,7 @@ function Login({ validation }: Props) {
           />
           <button
             data-testid="submit"
-            disabled
+            disabled={!!state.emailError || !!state.passwordError}
             type="submit"
             className={styles.submit}
           >
