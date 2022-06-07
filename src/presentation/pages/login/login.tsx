@@ -15,7 +15,7 @@ function Login({ validation }: Props) {
     email: "",
     password: "",
     emailError: "",
-    passwordError: "Campo obrigatório",
+    passwordError: "",
     mainError: "",
   });
 
@@ -23,12 +23,9 @@ function Login({ validation }: Props) {
     setState({
       ...state,
       emailError: validation?.validate("email", state.email) || "",
+      passwordError: validation?.validate("password", state.password) || "",
     });
-  }, [state.email]);
-
-  useEffect(() => {
-    validation?.validate("password", state.password);
-  }, [state.password]);
+  }, [state.email, state.password]);
 
   return (
     <div className={styles.login}>
