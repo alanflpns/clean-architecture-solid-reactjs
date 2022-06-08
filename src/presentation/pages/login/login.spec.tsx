@@ -9,6 +9,7 @@ import {
 import { AuthenticationSpy, ValidationStub } from "../../test";
 import Login from "./login";
 import faker from "faker";
+import "jest-localstorage-mock";
 
 type SutTypes = {
   sut: RenderResult;
@@ -79,6 +80,8 @@ const simulateStatusForField = (
 describe("Login Component", () => {
   // após cada teste limpar
   afterEach(cleanup);
+
+  beforeEach(() => localStorage.clear());
 
   it("Should start with initial state", () => {
     const validationError = faker.random.words();
@@ -162,4 +165,30 @@ describe("Login Component", () => {
 
     expect(authenticationSpy.callsCount).toEqual(0);
   });
+
+  // it("Should present error if Authentication fails", async () => {
+  //   const { sut, authenticationSpy } = makeSut();
+  //   const error = new InvalidCredentialsError();
+  //   jest
+  //     .spyOn(authenticationSpy, "auth")
+  //     .mockReturnValueOnce(Promise.reject(error));
+  //   simulateValidSubmit(sut);
+  //   const errorWrap = sut.getByTestId("error-wrap");
+  //   await waitFor(() => errorWrap)
+  //   const mainError = sut.getByTestId("main-error");
+  //   expect(mainError.textContent).toBe(error.message);
+  //   expect(errorWrap.childElementCount).toBe(1);
+  // });
+
+  // it("Should add accessToken to localstorage on success", async () => {
+  //   const { sut, authenticationSpy } = makeSut();
+
+  //   simulateValidSubmit(sut);
+  //   // eslint-disable-next-line testing-library/prefer-find-by
+  //   await waitFor(() => sut.getByTestId("form"));
+  //   expect(localStorage.setItem).toHaveBeenCalledWith(
+  //     "accessToken",
+  //     authenticationSpy.account.accessToken
+  //   );
+  // });
 });
