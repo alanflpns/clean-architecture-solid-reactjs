@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Authentication } from "../../../domain/usecases";
 import { LoginHeader, Input, FormStatus, Footer } from "../../components";
 import Context from "../../contexts/form/form-contex";
@@ -12,6 +13,8 @@ interface Props {
 }
 
 function Login({ validation, authentication }: Props) {
+  const navigate = useNavigate();
+
   const [state, setState] = useState({
     isLoading: false,
     email: "",
@@ -42,6 +45,7 @@ function Login({ validation, authentication }: Props) {
         password: state.password,
       });
       localStorage.setItem("accessToken", account!.accessToken);
+      navigate("/");
     } catch (error) {
       setState({
         ...state,
@@ -75,7 +79,9 @@ function Login({ validation, authentication }: Props) {
           >
             Entrar
           </button>
-          <span className={styles.link}>Criar conta</span>
+          <Link data-testid="signup" to="/signup" className={styles.link}>
+            Criar conta
+          </Link>
           <FormStatus />
         </form>
       </Context.Provider>
