@@ -5,6 +5,7 @@ import {
   fireEvent,
   render,
   RenderResult,
+  waitFor,
 } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
@@ -41,15 +42,16 @@ const makeSut = (params?: SutParams): SutTypes => {
   };
 };
 
-const simulateValidSubmit = (
+const simulateValidSubmit = async (
   sut: RenderResult,
   email = faker.internet.email(),
   password = faker.internet.password()
 ) => {
   populateEmailField(sut, email);
   populatePasswordField(sut, password);
-  const submitButton = sut.getByTestId("submit");
-  fireEvent.click(submitButton);
+  const form = sut.getByTestId("form");
+  fireEvent.submit(form);
+  await waitFor(() => form);
 };
 
 const populateEmailField = (
@@ -137,26 +139,26 @@ describe("Login Component", () => {
     expect(submitButton.disabled).toBe(false);
   });
 
-  it("Should show spinner on submit", () => {
+  it("Should show spinner on submit", async () => {
     const { sut } = makeSut();
-    simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
     const spinner = sut.getByTestId("spinner");
     expect(spinner).toBeTruthy();
   });
 
-  it("Should call Authentication with correct values", () => {
+  it("Should call Authentication with correct values", async () => {
     const { sut, authenticationSpy } = makeSut();
     const email = faker.internet.email();
     const password = faker.internet.password();
-    simulateValidSubmit(sut, email, password);
+    await simulateValidSubmit(sut, email, password);
 
     expect(authenticationSpy.params).toEqual({ email, password });
   });
 
-  it("Should call Authentication only once", () => {
+  it("Should call Authentication only once", async () => {
     const { sut, authenticationSpy } = makeSut();
-    simulateValidSubmit(sut);
-    simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
 
     expect(authenticationSpy.callsCount).toEqual(1);
   });
