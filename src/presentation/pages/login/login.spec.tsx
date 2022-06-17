@@ -10,7 +10,7 @@ import {
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { AuthenticationSpy, ValidationStub } from "../../test";
-import Login from "./login";
+import { Login } from "../../pages";
 import faker from "faker";
 import "jest-localstorage-mock";
 

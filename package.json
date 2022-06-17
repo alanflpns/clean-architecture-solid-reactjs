@@ -22,9 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --passWithNoTests",
-    "test:watch": "yarn test -- --watch",
-    "test:staged": "yarn test -- --findRelatedTests",
-    "test:ci": "yarn test -- --coverage",
+    "test:watch": "yarn test --watch",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
