@@ -8,8 +8,8 @@ import { Validation } from "../../protocols/validation";
 import styles from "./login-styles.module.scss";
 
 interface Props {
-  validation?: Validation;
-  authentication?: Authentication;
+  validation: Validation;
+  authentication: Authentication;
 }
 
 function Login({ validation, authentication }: Props) {
@@ -27,8 +27,8 @@ function Login({ validation, authentication }: Props) {
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation?.validate("email", state.email) || "",
-      passwordError: validation?.validate("password", state.password) || "",
+      emailError: validation.validate("email", state.email) || "",
+      passwordError: validation.validate("password", state.password) || "",
     });
   }, [state.email, state.password]);
 
@@ -40,7 +40,7 @@ function Login({ validation, authentication }: Props) {
       }
 
       setState({ ...state, isLoading: true });
-      const account = await authentication?.auth({
+      const account = await authentication.auth({
         email: state.email,
         password: state.password,
       });
