@@ -17,14 +17,14 @@ describe("Input Component", () => {
   it("Shold begin with readOnly", () => {
     const field = faker.database.column();
     const sut = makeSut(field);
-    const input = sut.getByTestId("field") as HTMLInputElement;
+    const input = sut.getByTestId(field) as HTMLInputElement;
     expect(input.readOnly).toBe(true);
   });
 
   it("Shold remove readOnly on focus", () => {
     const field = faker.database.column();
     const sut = makeSut(field);
-    const input = sut.getByTestId("field") as HTMLInputElement;
+    const input = sut.getByTestId(field) as HTMLInputElement;
     fireEvent.focus(input);
     expect(input.readOnly).toBe(false);
   });
