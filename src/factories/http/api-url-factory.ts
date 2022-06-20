@@ -1,3 +1,3 @@
 export const makeApiUrl = (path: string) => {
-  return `http://fordevs.herokuapp.com/api${path}`;
+  return `${process.env.REACT_APP_API_URL}${path}`;
 };
