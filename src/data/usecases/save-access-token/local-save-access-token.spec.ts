@@ -1,5 +1,5 @@
 import faker from "faker";
-import { SetStorageMock } from "../../test/mock-storage";
+import { SetStorageMock } from "../../test/";
 import { LocalSaveAccessToken } from "./local-save-access-token";
 
 type SutTypes = {
@@ -35,6 +35,6 @@ describe("LocalSaveAccessToken", () => {
 
     const promise = sut.save(accessToken);
 
-    await expect(promise).rejects.toThrow(new Error())
+    await expect(promise).rejects.toThrow(new Error());
   });
 });
