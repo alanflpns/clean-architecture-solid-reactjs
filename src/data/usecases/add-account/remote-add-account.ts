@@ -1,5 +1,5 @@
 import {
-  InvalidCredentialsError,
+  EmailInUseError,
   UnexpectedError,
 } from "../../../domain/errors";
 import { AccountModel } from "../../../domain/models";
@@ -24,8 +24,8 @@ export class RemoteAddAccount implements AddAccount {
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok:
         return httpResponse.body!;
-      case HttpStatusCode.unauthorized:
-        throw new InvalidCredentialsError();
+      case HttpStatusCode.forbidden:
+        throw new EmailInUseError();
       default:
         throw new UnexpectedError();
     }
