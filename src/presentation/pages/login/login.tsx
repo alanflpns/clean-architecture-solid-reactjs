@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Authentication } from "../../../domain/usecases";
+import { SaveAccessToken } from "../../../domain/usecases/save-access-token";
 import { LoginHeader, Input, FormStatus, Footer } from "../../components";
 import Context from "../../contexts/form/form-contex";
 import { Validation } from "../../protocols/validation";
@@ -11,9 +12,10 @@ import styles from "./login-styles.module.scss";
 interface Props {
   validation: Validation;
   authentication: Authentication;
+  saveAccessToken: SaveAccessToken;
 }
 
-function Login({ validation, authentication }: Props) {
+function Login({ validation, authentication, saveAccessToken }: Props) {
   const navigate = useNavigate();
 
   const [state, setState] = useState({
@@ -45,7 +47,7 @@ function Login({ validation, authentication }: Props) {
         email: state.email,
         password: state.password,
       });
-      localStorage.setItem("accessToken", account!.accessToken);
+      await saveAccessToken.save(account!.accessToken);
       navigate("/");
     } catch (error) {
       setState({
