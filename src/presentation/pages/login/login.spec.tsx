@@ -9,15 +9,19 @@ import {
 } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { AuthenticationSpy, ValidationStub } from "../../test";
+import {
+  AuthenticationSpy,
+  ValidationStub,
+  SaveAccessTokenMock,
+} from "../../test";
 import { Login } from "../../pages";
 import faker from "faker";
-import "jest-localstorage-mock";
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
   authenticationSpy: AuthenticationSpy;
+  saveAccessTokenMock: SaveAccessTokenMock;
 };
 
 type SutParams = {
@@ -28,10 +32,15 @@ const history = createMemoryHistory();
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   const authenticationSpy = new AuthenticationSpy();
+  const saveAccessTokenMock = new SaveAccessTokenMock();
   validationStub.errorMessage = params?.validationError || "";
   const sut = render(
     <Router navigator={history} location={history.location}>
-      <Login validation={validationStub} authentication={authenticationSpy} />
+      <Login
+        validation={validationStub}
+        authentication={authenticationSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
     </Router>
   );
 
@@ -39,6 +48,7 @@ const makeSut = (params?: SutParams): SutTypes => {
     sut,
     validationStub,
     authenticationSpy,
+    saveAccessTokenMock,
   };
 };
 
@@ -87,8 +97,6 @@ const simulateStatusForField = (
 describe("Login Component", () => {
   // após cada teste limpar
   afterEach(cleanup);
-
-  beforeEach(() => localStorage.clear());
 
   it("Should start with initial state", () => {
     const validationError = faker.random.words();
@@ -187,17 +195,15 @@ describe("Login Component", () => {
   //   expect(errorWrap.childElementCount).toBe(1);
   // });
 
-  // it("Should add accessToken to localstorage on success", async () => {
-  //   const { sut, authenticationSpy } = makeSut();
+  it("Should call saveAccessToken on success", async () => {
+    const { sut, authenticationSpy, saveAccessTokenMock } = makeSut();
 
-  //   simulateValidSubmit(sut);
-  //   // eslint-disable-next-line testing-library/prefer-find-by
-  //   await waitFor(() => sut.getByTestId("form"));
-  //   expect(localStorage.setItem).toHaveBeenCalledWith(
-  //     "accessToken",
-  //     authenticationSpy.account.accessToken
-  //   );
-  // });
+    await simulateValidSubmit(sut);
+    expect(saveAccessTokenMock.accessToken).toBe(
+      authenticationSpy.account.accessToken
+    );
+    expect(history.location.pathname).toBe("/");
+  });
 
   it("Should go signup page", () => {
     const { sut } = makeSut();
