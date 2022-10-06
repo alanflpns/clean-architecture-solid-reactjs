@@ -10,10 +10,19 @@ import { Validation } from "../../protocols/validation";
 import styles from "./signup-styles.module.scss";
 
 function Signup() {
+  const [state, setState] = useState({
+    isLoading: false,
+    nameError: "Campo obrigatório",
+    emailError: "Campo obrigatório",
+    passwordError: "Campo obrigatório",
+    passwordConfirmationError: "Campo obrigatório",
+    mainError: "",
+  });
+
   return (
     <div className={styles.signup}>
       <LoginHeader />
-      <Context.Provider value={{ state: {} }}>
+      <Context.Provider value={{ state }}>
         <form className={styles.form}>
           <h2>Criar Conta</h2>
           <Input type="text" name="name" placeholder="Digite seu nome" />
@@ -28,12 +37,15 @@ function Signup() {
             name="passwordConfirmation"
             placeholder="Repita sua senha"
           />
-          <button type="submit" className={styles.submit}>
+          <button
+            data-testid="submit"
+            disabled
+            type="submit"
+            className={styles.submit}
+          >
             Entrar
           </button>
-          <Link to="/login" className={styles.link}>
-            Voltar para login
-          </Link>
+          <span className={styles.link}>Voltar para login</span>
           <FormStatus />
         </form>
       </Context.Provider>
