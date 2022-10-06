@@ -9,9 +9,14 @@ import { Validation } from "../../protocols/validation";
 
 import styles from "./signup-styles.module.scss";
 
-function Signup() {
+interface Props {
+  validation: Validation;
+}
+
+function Signup({ validation }: Props) {
   const [state, setState] = useState({
     isLoading: false,
+    name: "",
     nameError: "Campo obrigatório",
     emailError: "Campo obrigatório",
     passwordError: "Campo obrigatório",
@@ -19,10 +24,17 @@ function Signup() {
     mainError: "",
   });
 
+  useEffect(() => {
+    setState({
+      ...state,
+      nameError: validation.validate("email", state.nameError) || "",
+    });
+  }, [state.name]);
+
   return (
     <div className={styles.signup}>
       <LoginHeader />
-      <Context.Provider value={{ state }}>
+      <Context.Provider value={{ state, setState }}>
         <form className={styles.form}>
           <h2>Criar Conta</h2>
           <Input type="text" name="name" placeholder="Digite seu nome" />
