@@ -13,6 +13,7 @@ import {
   AuthenticationSpy,
   ValidationStub,
   SaveAccessTokenMock,
+  Helper,
 } from "../../test";
 import { Login } from "../../pages";
 import faker from "faker";
@@ -84,16 +85,6 @@ const populatePasswordField = (
   });
 };
 
-const simulateStatusForField = (
-  sut: RenderResult,
-  fieldName: string,
-  validationError?: string
-) => {
-  const emailStatus = sut.getByTestId(`${fieldName}-status`);
-  expect(emailStatus.title).toBe(validationError || "Tudo certo");
-  expect(emailStatus.textContent).toBe(validationError ? "🔴" : "🟢");
-};
-
 describe("Login Component", () => {
   // após cada teste limpar
   afterEach(cleanup);
@@ -108,34 +99,34 @@ describe("Login Component", () => {
     const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
     expect(submitButton.disabled).toBe(true);
 
-    simulateStatusForField(sut, "email", validationError);
-    simulateStatusForField(sut, "password", validationError);
+    Helper.testStatusForField(sut, "email", validationError);
+    Helper.testStatusForField(sut, "password", validationError);
   });
 
   it("Should show email error if Validation fails", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
     populateEmailField(sut);
-    simulateStatusForField(sut, "email", validationError);
+    Helper.testStatusForField(sut, "email", validationError);
   });
 
   it("Should show password error if Validation fails", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
     populatePasswordField(sut);
-    simulateStatusForField(sut, "password", validationError);
+    Helper.testStatusForField(sut, "password", validationError);
   });
 
   it("Should show valid email state if Validation succeeds", () => {
     const { sut } = makeSut();
     populateEmailField(sut);
-    simulateStatusForField(sut, "email");
+    Helper.testStatusForField(sut, "email");
   });
 
   it("Should show valid password state if Validation succeeds", () => {
     const { sut } = makeSut();
     populatePasswordField(sut);
-    simulateStatusForField(sut, "password");
+    Helper.testStatusForField(sut, "password");
   });
 
   it("Should enable submit button if form is valid", () => {
