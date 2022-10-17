@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Authentication } from "../../../domain/usecases";
+import { AddAccount, Authentication } from "../../../domain/usecases";
 import { SaveAccessToken } from "../../../domain/usecases/save-access-token";
 import { LoginHeader, Input, FormStatus, Footer } from "../../components";
 import Context from "../../contexts/form/form-contex";
@@ -11,9 +11,10 @@ import styles from "./signup-styles.module.scss";
 
 interface Props {
   validation: Validation;
+  addAccount: AddAccount;
 }
 
-function Signup({ validation }: Props) {
+function Signup({ validation, addAccount }: Props) {
   const [state, setState] = useState({
     isLoading: false,
     name: "",
@@ -50,6 +51,12 @@ function Signup({ validation }: Props) {
     event.preventDefault();
 
     setState({ ...state, isLoading: true });
+    await addAccount.add({
+      name: state.name,
+      email: state.email,
+      password: state.password,
+      passwordConfirmation: state.passwordConfirmation,
+    });
   };
 
   return (
