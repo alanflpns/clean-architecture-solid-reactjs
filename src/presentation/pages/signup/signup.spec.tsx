@@ -162,4 +162,14 @@ describe("SignUp Component", () => {
 
     expect(addAccountSpy.callsCount).toEqual(1);
   });
+
+  it("Should not call Authentication if form is invalid", () => {
+    const validationError = faker.random.words();
+    const { sut, addAccountSpy } = makeSut({ validationError });
+    Helper.populateField(sut, 'email');
+
+    fireEvent.submit(sut.getByTestId("form"));
+
+    expect(addAccountSpy.callsCount).toEqual(0);
+  });
 });
