@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 /* eslint-disable testing-library/render-result-naming-convention */
-import { RenderResult, render, cleanup } from "@testing-library/react";
+import { RenderResult, render, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import faker from "faker";
 import Signup from "./signup";
 import { Helper, ValidationStub } from "../../test";
@@ -21,6 +21,21 @@ const makeSut = (params?: SutParams): SutTypes => {
   return {
     sut,
   };
+};
+
+const simulateValidSubmit = async (
+  sut: RenderResult,
+  name = faker.name.findName(),
+  email = faker.internet.email(),
+  password = faker.internet.password()
+) => {
+  Helper.populateField(sut, "name", name);
+  Helper.populateField(sut, "email", email);
+  Helper.populateField(sut, "password", password);
+  Helper.populateField(sut, "passwordConfirmation", password);
+  const form = sut.getByTestId("form");
+  fireEvent.submit(form);
+  await waitFor(() => form);
 };
 
 describe("SignUp Component", () => {
@@ -103,5 +118,12 @@ describe("SignUp Component", () => {
 
     const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
     expect(submitButton.disabled).toBe(false);
+  });
+
+  it("Should show spinner on submit", async () => {
+    const { sut } = makeSut();
+    await simulateValidSubmit(sut);
+    const spinner = sut.getByTestId("spinner");
+    expect(spinner).toBeTruthy();
   });
 });
