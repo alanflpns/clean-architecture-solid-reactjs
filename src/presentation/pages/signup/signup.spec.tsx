@@ -46,7 +46,7 @@ describe("SignUp Component", () => {
     Helper.testStatusForField(sut, "name", validationError);
   });
 
-  it("Should show valid email state if Validation succeeds", () => {
+  it("Should show email error if Validation fails", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
 
@@ -54,7 +54,7 @@ describe("SignUp Component", () => {
     Helper.testStatusForField(sut, "email", validationError);
   });
 
-  it("Should show valid password state if Validation succeeds", () => {
+  it("Should show password error if Validation fails", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
 
@@ -62,11 +62,46 @@ describe("SignUp Component", () => {
     Helper.testStatusForField(sut, "password", validationError);
   });
 
-  it("Should show valid passwordConfirmation state if Validation succeeds", () => {
+  it("Should show passwordConfirmation error if Validation fails", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
 
     Helper.populateField(sut, "passwordConfirmation");
     Helper.testStatusForField(sut, "passwordConfirmation", validationError);
+  });
+
+  it("Should show valid name state if Validation succeeds", () => {
+    const { sut } = makeSut();
+    Helper.populateField(sut, "name");
+    Helper.testStatusForField(sut, "name");
+  });
+
+  it("Should show valid email state if Validation succeeds", () => {
+    const { sut } = makeSut();
+    Helper.populateField(sut, "email");
+    Helper.testStatusForField(sut, "email");
+  });
+
+  it("Should show valid password state if Validation succeeds", () => {
+    const { sut } = makeSut();
+    Helper.populateField(sut, "password");
+    Helper.testStatusForField(sut, "password");
+  });
+
+  it("Should show valid passwordConfirmation state if Validation succeeds", () => {
+    const { sut } = makeSut();
+    Helper.populateField(sut, "passwordConfirmation");
+    Helper.testStatusForField(sut, "passwordConfirmation");
+  });
+
+  it("Should enable submit button if form is valid", () => {
+    const { sut } = makeSut();
+    Helper.populateField(sut, "name");
+    Helper.populateField(sut, "email");
+    Helper.populateField(sut, "password");
+    Helper.populateField(sut, "passwordConfirmation");
+
+    const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
+    expect(submitButton.disabled).toBe(false);
   });
 });

@@ -33,9 +33,18 @@ function Signup({ validation }: Props) {
       nameError: validation.validate("name", state.nameError) || "",
       emailError: validation.validate("email", state.emailError) || "",
       passwordError: validation.validate("password", state.emailError) || "",
-      passwordConfirmationError: validation.validate("passwordConfirmation", state.passwordConfirmationError) || "",
+      passwordConfirmationError:
+        validation.validate(
+          "passwordConfirmation",
+          state.passwordConfirmationError
+        ) || "",
     });
-  }, [state.name, state.email, state.passwordError, state.passwordConfirmation]);
+  }, [
+    state.name,
+    state.email,
+    state.passwordError,
+    state.passwordConfirmation,
+  ]);
 
   return (
     <div className={styles.signup}>
@@ -57,7 +66,12 @@ function Signup({ validation }: Props) {
           />
           <button
             data-testid="submit"
-            disabled
+            disabled={
+              !!state.nameError ||
+              !!state.emailError ||
+              !!state.passwordError ||
+              !!state.passwordConfirmationError
+            }
             type="submit"
             className={styles.submit}
           >
