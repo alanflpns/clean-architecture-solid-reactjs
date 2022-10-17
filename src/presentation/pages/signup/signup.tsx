@@ -12,9 +12,12 @@ import styles from "./signup-styles.module.scss";
 interface Props {
   validation: Validation;
   addAccount: AddAccount;
+  saveAccessToken: SaveAccessToken;
 }
 
-function Signup({ validation, addAccount }: Props) {
+function Signup({ validation, addAccount, saveAccessToken }: Props) {
+  const navigate = useNavigate();
+
   const [state, setState] = useState({
     isLoading: false,
     name: "",
@@ -50,23 +53,34 @@ function Signup({ validation, addAccount }: Props) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (
-      state.isLoading ||
-      state.nameError ||
-      state.emailError ||
-      state.passwordError ||
-      state.passwordConfirmationError
-    ) {
-      return;
-    }
+    try {
+      if (
+        state.isLoading ||
+        state.nameError ||
+        state.emailError ||
+        state.passwordError ||
+        state.passwordConfirmationError
+      ) {
+        return;
+      }
 
-    setState({ ...state, isLoading: true });
-    await addAccount.add({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-      passwordConfirmation: state.passwordConfirmation,
-    });
+      setState({ ...state, isLoading: true });
+      const account = await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.passwordConfirmation,
+      });
+
+      await saveAccessToken.save(account!.accessToken);
+      navigate("/");
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        mainError: (error as any).message,
+      });
+    }
   };
 
   return (

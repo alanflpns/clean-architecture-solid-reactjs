@@ -9,29 +9,48 @@ import {
 } from "@testing-library/react";
 import faker from "faker";
 import Signup from "./signup";
-import { Helper, ValidationStub, AddAccountSpy } from "../../test";
+import {
+  Helper,
+  ValidationStub,
+  AddAccountSpy,
+  SaveAccessTokenMock,
+} from "../../test";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 type SutTypes = {
   sut: RenderResult;
   addAccountSpy: AddAccountSpy;
+  saveAccessTokenMock: SaveAccessTokenMock;
 };
 
 type SutParams = {
   validationError: string;
 };
 
+const history = createMemoryHistory({ initialEntries: ["/signup"] });
+
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError || "";
 
   const addAccountSpy = new AddAccountSpy();
+  const saveAccessTokenMock = new SaveAccessTokenMock();
+
   const sut = render(
-    <Signup validation={validationStub} addAccount={addAccountSpy} />
+    <Router navigator={history} location={history.location}>
+      <Signup
+        validation={validationStub}
+        addAccount={addAccountSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
+    </Router>
   );
 
   return {
     sut,
     addAccountSpy,
+    saveAccessTokenMock,
   };
 };
 
@@ -166,10 +185,34 @@ describe("SignUp Component", () => {
   it("Should not call Authentication if form is invalid", () => {
     const validationError = faker.random.words();
     const { sut, addAccountSpy } = makeSut({ validationError });
-    Helper.populateField(sut, 'email');
+    Helper.populateField(sut, "email");
 
     fireEvent.submit(sut.getByTestId("form"));
 
     expect(addAccountSpy.callsCount).toEqual(0);
+  });
+
+  // it("Should present error if Authentication fails", async () => {
+  //   const { sut, addAccountSpy } = makeSut();
+  //   const error = new EmailInUseError();
+  //   jest
+  //     .spyOn(addAccountSpy, "add").mockRejectedValueOnce(error)
+  //   await simulateValidSubmit(sut);
+
+  //   const errorWrap = sut.getByTestId("error-wrap");
+  //   await waitFor(() => errorWrap)
+  //   const mainError = sut.getByTestId("main-error");
+  //   expect(mainError.textContent).toBe(error.message);
+  //   expect(errorWrap.childElementCount).toBe(1);
+  // });
+
+  it("Should call saveAccessToken on success", async () => {
+    const { sut, addAccountSpy, saveAccessTokenMock } = makeSut();
+
+    await simulateValidSubmit(sut);
+    expect(saveAccessTokenMock.accessToken).toBe(
+      addAccountSpy.account.accessToken
+    );
+    expect(history.location.pathname).toBe("/");
   });
 });
