@@ -18,9 +18,10 @@ function Signup({ validation }: Props) {
     isLoading: false,
     name: "",
     email: "",
+    password: "",
     nameError: "",
     emailError: "",
-    passwordError: "Campo obrigatório",
+    passwordError: "",
     passwordConfirmationError: "Campo obrigatório",
     mainError: "",
   });
@@ -30,8 +31,9 @@ function Signup({ validation }: Props) {
       ...state,
       nameError: validation.validate("name", state.nameError) || "",
       emailError: validation.validate("email", state.emailError) || "",
+      passwordError: validation.validate("password", state.emailError) || "",
     });
-  }, [state.name, state.email]);
+  }, [state.name, state.email, state.passwordError]);
 
   return (
     <div className={styles.signup}>
