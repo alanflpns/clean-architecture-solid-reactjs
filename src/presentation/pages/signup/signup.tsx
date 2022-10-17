@@ -19,10 +19,11 @@ function Signup({ validation }: Props) {
     name: "",
     email: "",
     password: "",
+    passwordConfirmation: "",
     nameError: "",
     emailError: "",
     passwordError: "",
-    passwordConfirmationError: "Campo obrigatório",
+    passwordConfirmationError: "",
     mainError: "",
   });
 
@@ -32,8 +33,9 @@ function Signup({ validation }: Props) {
       nameError: validation.validate("name", state.nameError) || "",
       emailError: validation.validate("email", state.emailError) || "",
       passwordError: validation.validate("password", state.emailError) || "",
+      passwordConfirmationError: validation.validate("passwordConfirmation", state.passwordConfirmationError) || "",
     });
-  }, [state.name, state.email, state.passwordError]);
+  }, [state.name, state.email, state.passwordError, state.passwordConfirmation]);
 
   return (
     <div className={styles.signup}>
