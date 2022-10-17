@@ -43,18 +43,8 @@
       }
     }
 
-    .submit {
+    button {
       margin-top: 32px;
-
-      &:disabled {
-        background-color: $disabledBackground;
-        color: $disabledColor;
-        cursor: not-allowed;
-
-        &:hover {
-          opacity: 1;
-        }
-      }
     }
 
     .link {

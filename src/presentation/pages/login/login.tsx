@@ -3,7 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Authentication } from "../../../domain/usecases";
 import { SaveAccessToken } from "../../../domain/usecases/save-access-token";
-import { LoginHeader, Input, FormStatus, Footer } from "../../components";
+import {
+  LoginHeader,
+  Input,
+  FormStatus,
+  Footer,
+  SubmitButton,
+} from "../../components";
 import Context from "../../contexts/form/form-contex";
 import { Validation } from "../../protocols/validation";
 
@@ -74,14 +80,7 @@ function Login({ validation, authentication, saveAccessToken }: Props) {
             name="password"
             placeholder="Digite sua senha"
           />
-          <button
-            data-testid="submit"
-            disabled={!!state.emailError || !!state.passwordError}
-            type="submit"
-            className={styles.submit}
-          >
-            Entrar
-          </button>
+          <SubmitButton text="Entrar" />
           <Link data-testid="signup" to="/signup" className={styles.link}>
             Criar conta
           </Link>
