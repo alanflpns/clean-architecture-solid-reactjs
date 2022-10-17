@@ -17,8 +17,9 @@ function Signup({ validation }: Props) {
   const [state, setState] = useState({
     isLoading: false,
     name: "",
-    nameError: "Campo obrigatório",
-    emailError: "Campo obrigatório",
+    email: "",
+    nameError: "",
+    emailError: "",
     passwordError: "Campo obrigatório",
     passwordConfirmationError: "Campo obrigatório",
     mainError: "",
@@ -27,9 +28,10 @@ function Signup({ validation }: Props) {
   useEffect(() => {
     setState({
       ...state,
-      nameError: validation.validate("email", state.nameError) || "",
+      nameError: validation.validate("name", state.nameError) || "",
+      emailError: validation.validate("email", state.emailError) || "",
     });
-  }, [state.name]);
+  }, [state.name, state.email]);
 
   return (
     <div className={styles.signup}>
