@@ -73,7 +73,7 @@ function Signup({ validation, addAccount, saveAccessToken }: Props) {
       });
 
       await saveAccessToken.save(account!.accessToken);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       setState({
         ...state,
@@ -118,7 +118,9 @@ function Signup({ validation, addAccount, saveAccessToken }: Props) {
           >
             Entrar
           </button>
-          <span className={styles.link}>Voltar para login</span>
+          <Link data-testid="login" replace to="/login" className={styles.link}>
+            Voltar para login
+          </Link>
           <FormStatus />
         </form>
       </Context.Provider>

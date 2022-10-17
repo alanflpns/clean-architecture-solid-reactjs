@@ -48,7 +48,7 @@ function Login({ validation, authentication, saveAccessToken }: Props) {
         password: state.password,
       });
       await saveAccessToken.save(account!.accessToken);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       setState({
         ...state,

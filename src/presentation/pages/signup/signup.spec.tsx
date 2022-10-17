@@ -215,4 +215,12 @@ describe("SignUp Component", () => {
     );
     expect(history.location.pathname).toBe("/");
   });
+
+  it("Should go login page", () => {
+    const { sut } = makeSut();
+    const loginLink = sut.getByTestId("login");
+    fireEvent.click(loginLink);
+
+    expect(history.location.pathname).toBe("/login");
+  });
 });
