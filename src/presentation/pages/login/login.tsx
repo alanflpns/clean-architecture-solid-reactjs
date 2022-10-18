@@ -26,6 +26,7 @@ function Login({ validation, authentication, saveAccessToken }: Props) {
 
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     email: "",
     password: "",
     emailError: "",
@@ -34,10 +35,17 @@ function Login({ validation, authentication, saveAccessToken }: Props) {
   });
 
   useEffect(() => {
+    const { email, password } = state;
+    const formData = { email, password };
+
+    const emailError = validation.validate("email", formData) || "";
+    const passwordError = validation.validate("password", formData) || "";
+
     setState({
       ...state,
-      emailError: validation.validate("email", state.email) || "",
-      passwordError: validation.validate("password", state.password) || "",
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError,
     });
   }, [state.email, state.password]);
 

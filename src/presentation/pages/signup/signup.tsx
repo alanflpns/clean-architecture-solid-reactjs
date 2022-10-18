@@ -39,15 +39,13 @@ function Signup({ validation, addAccount, saveAccessToken }: Props) {
   });
 
   useEffect(() => {
-    const nameError = validation.validate("name", state.nameError) || "";
-    const emailError = validation.validate("email", state.emailError) || "";
-    const passwordError =
-      validation.validate("password", state.emailError) || "";
+    const { name, email, password, passwordConfirmation } = state;
+    const formData = { name, email, password, passwordConfirmation };
+    const nameError = validation.validate("name", formData) || "";
+    const emailError = validation.validate("email", formData) || "";
+    const passwordError = validation.validate("password", formData) || "";
     const passwordConfirmationError =
-      validation.validate(
-        "passwordConfirmation",
-        state.passwordConfirmationError
-      ) || "";
+      validation.validate("passwordConfirmation", formData) || "";
 
     setState({
       ...state,

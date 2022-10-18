@@ -4,7 +4,7 @@ import { FieldValidation } from "../../protocols/field-validation";
 export class RequiredFieldValidation implements FieldValidation {
   constructor(readonly field: string) {}
 
-  validate(value: string) {
-    return value ? null : new RequiredFieldError();
+  validate(input: any) {
+    return input[this.field]  ? null : new RequiredFieldError();
   }
 }
